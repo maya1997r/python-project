@@ -8,7 +8,7 @@ class Tictactoe:
     def __init__(self, frame):
         
         
-        #self.root.geometry(f"{window_width}x{window_height}")
+        
         self.current_player = "X"
 
         
@@ -49,6 +49,7 @@ class Tictactoe:
                     messagebox.showinfo(f" {self.current_player} you won")
                     self.reset()
 
+            # check if horizontal 
                 elif (self.state[0][i] == self.state[1][i] == self.state[2][i] == 1) or (self.state[0][i] == self.state[1][i] == self.state[2][i] == 2):
                     
                     self.buttons[0][i].config(bg="red")
@@ -56,7 +57,7 @@ class Tictactoe:
                     self.buttons[2][i].config(bg="red")
                     messagebox.showinfo(f" {self.current_player} you won")
                     self.reset()
-
+            #check if diagonal 
                 elif (self.state[0][0] == self.state[1][1] == self.state[2][2] == 1) or (self.state[0][0] == self.state[1][1] == self.state[2][2] == 2):
                     self.buttons[0][0].config(bg="red")
                     self.buttons[1][1].config(bg="red")
@@ -106,6 +107,7 @@ if __name__ == "__main__":
     root.title("Tic Tac Toe")
 
     frames = []
+    games = []
 
     for i in range(3):
         row_frames = []
@@ -115,7 +117,7 @@ if __name__ == "__main__":
             row_frames.append(frame)
         frames.append(row_frames)
 
-    games = []
+    
     for i in range(3):
         row_games = []
         for j in range(3):

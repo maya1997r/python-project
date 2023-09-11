@@ -17,21 +17,44 @@ def button_click(n, m , i, j):
     global current_player
     game_update = games[n][m].update(i,j,current_player)
 
+    print(game_update)
+
+    
+
     if game_update is not None:
         if current_player == 1:
             buttons[n][m][i][j]["text"] = "X"
+            
             current_player = 2
+            if type(game_update) == list:
+                buttons[n][m][game_update[0][0]][game_update[0][1]].config(bg = "red")
+                buttons[n][m][game_update[1][0]][game_update[1][1]].config(bg = "red")
+                buttons[n][m][game_update[2][0]][game_update[2][1]].config(bg = "red")
+            
+                
+
+            
 
         elif current_player == 2:
             buttons[n][m][i][j]["text"] = "O"
+            
             current_player = 1
+            if type(game_update) == list:
+                buttons[n][m][game_update[0][0]][game_update[0][1]].config(bg = "green")
+                buttons[n][m][game_update[1][0]][game_update[1][1]].config(bg = "green")
+                buttons[n][m][game_update[2][0]][game_update[2][1]].config(bg = "green")
+            
+            
+            
+
+    
 
 
 
 
 
 if __name__ == "__main__":
-    print("hinndkjnksjndjksnk")
+    
 
 
     root = tk.Tk()

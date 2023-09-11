@@ -62,39 +62,33 @@ class Tictactoe:
                     winner_states.append([j,i])
                 return winner_states
 
-        #check if diagonal 1
-        if (self.state[0][0] == self.state[1][1] == self.state[2][2] == 1):
+        # Check if diagonal 1
+        if self.state[0][0] == self.state[1][1] == self.state[2][2] == 1:
             self.done = True
             for j in range(3):
-                winner_states.append([j,j])
-                return winner_states
-
-        elif (self.state[0][0] == self.state[1][1] == self.state[2][2] == 2):
+                winner_states.append([j, j])
+            return winner_states
+        elif self.state[0][0] == self.state[1][1] == self.state[2][2] == 2:
             self.done = True
             for j in range(3):
-                winner_states.append([j,j])
-                return winner_states
+                winner_states.append([j, j])
+            return winner_states
 
-        
-        #check if diagonal 2
-        if (self.state[0][2] == self.state[1][1] == self.state[2][0] == 1):
+        # Check if diagonal 2
+        if self.state[0][2] == self.state[1][1] == self.state[2][0] == 1:
             self.done = True
             for j in range(3):
-                winner_states.append([j,j])
-                return winner_states
-
-        elif (self.state[0][2] == self.state[1][1] == self.state[2][0] == 2):
+                winner_states.append([j, 2 - j])
+            return winner_states
+        elif self.state[0][2] == self.state[1][1] == self.state[2][0] == 2:
             self.done = True
             for j in range(3):
-                winner_states.append([j,2-j])
-                return winner_states
+                winner_states.append([j, 2 - j])
+            return winner_states
 
-        elif self.if_full() == True:
-            self.done = True
-            for i in range(3):
-                for j in range(3):
-                    winner_states.append([i,j])
-                return winner_states
+        if self.if_full() == True:
+                
+                    return True
             
         return True
     

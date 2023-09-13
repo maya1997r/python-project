@@ -1,63 +1,36 @@
 import tkinter as tk
 from tkinter import font as tkFont
+from super_tictactoe import SuperTicTacToe
 from tictactoe import Tictactoe
 font_size = 30
 separator_size = int((1/3) * font_size)
 
 frames = []
-games = []
+game = SuperTicTacToe()
 empty_button = "    "
 buttons = []
-current_player = 1
-small_board_position = None
 
 
 def button_click(n, m , i, j):
     
-    global current_player
-    global small_board_position
+    played_by, game_update = game.update(n, m, i, j)
 
-    if (small_board_position == None or small_board_position == [n,m]):
-        game_update = games[n][m].update(i,j,current_player)
+    if game_update is not None:
 
-        print(game_update)
+        buttons[n][m][i][j]["text"] = "X" if played_by == 1 else "O"
 
-        
+        if type(game_update) == list:
+            for i in range(3):
+                buttons[n][m][game_update[i][0]][game_update[i][1]].config(bg = "red" if played_by == 1 else "green")
 
-        if game_update is not None:
-            if current_player == 1:
-                buttons[n][m][i][j]["text"] = "X"
-                small_board_position = [i,j]
-                
-                
-                current_player = 2
-                if type(game_update) == list:
-                    buttons[n][m][game_update[0][0]][game_update[0][1]].config(bg = "red")
-                    buttons[n][m][game_update[1][0]][game_update[1][1]].config(bg = "red")
-                    buttons[n][m][game_update[2][0]][game_update[2][1]].config(bg = "red")
-            
-                
-                    
-
-                
-
-            elif current_player == 2:
-                buttons[n][m][i][j]["text"] = "O"
-                small_board_position = [i,j]
-                
-                current_player = 1
-                if type(game_update) == list:
-                    buttons[n][m][game_update[0][0]][game_update[0][1]].config(bg = "green")
-                    buttons[n][m][game_update[1][0]][game_update[1][1]].config(bg = "green")
-                    buttons[n][m][game_update[2][0]][game_update[2][1]].config(bg = "green")
-                
-                
-                
-
+def button_reset():
+    for n in range(3):
+        for m in range(3):
+            for i in range(3):
+                for j in range(3):
+                    buttons[n][m][i][j]["text"] = empty_button
     
-
-
-
+    game.reset()
 
 
 if __name__ == "__main__":
@@ -95,16 +68,9 @@ if __name__ == "__main__":
             row_separator_frame.grid(row=2 * i + 1, columnspan=3)
             frames.append(row_separator_frame)
 
-    
-    for i in range(3):
-        row_games = []
-        for j in range(3):
-            game = Tictactoe(frames[2 * i][2 * j])
-            row_games.append(game)
-        games.append(row_games)
 
     restart_button = tk.Button(root, text="restart game", 
-                               command=lambda: [[game.reset() for game in row] for row in games])
+                               command= button_reset)
     restart_button.grid(row=7, column=2)
     padding_frame = tk.Frame(root, height=separator_size)
     padding_frame.grid(row=8, columnspan=3)

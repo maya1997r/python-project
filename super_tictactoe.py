@@ -19,6 +19,10 @@ class SuperTicTacToe:
     def update(self, n, m , i, j):
 
         if (self.small_board_position == None or self.small_board_position == [n,m]):
+            if (self.games[n][m].if_full() or self.games[n][m].won != 0) :
+                self.small_board_position = None
+                self.update(self,n, m, i, j)
+
             game_update = self.games[n][m].update(i, j, self.current_player)
 
             
@@ -30,6 +34,8 @@ class SuperTicTacToe:
                 self.current_player = 2 if self.current_player == 1 else 1
 
                 return played, game_update
+            
+            
         return None, None
 
     def reset(self):

@@ -1,6 +1,6 @@
-from tictactoe import Tictactoe
-import tkinter as tk
-from tkinter import font as tkFont
+from tictactoe import SmallTictactoe
+from robot import computers_move
+
 
 class SuperTicTacToe:
     def __init__(self):
@@ -15,7 +15,7 @@ class SuperTicTacToe:
         for i in range(3):
             games_row = []
             for j in range(3):
-                games_row.append(Tictactoe())
+                games_row.append(SmallTictactoe())
             self.games.append(games_row)
 
 
@@ -31,22 +31,16 @@ class SuperTicTacToe:
                 all([j == 2 for j in self.states[i]])):
                 return True
 
-                
-
             # check vertical 
             if (self.states[0][i] == self.states[1][i] == self.states[2][i] == 1 or 
                 self.states[0][i] == self.states[1][i] == self.states[2][i] == 2):
                 return True
 
-                
-            
         # Check if diagonal 1
             if (self.states[0][0] == self.states[1][1] == self.states[2][2] == 1 or
             self.states[0][0] == self.states[1][1] == self.states[2][2] == 2):
                 return True
-
             
-
         # Check if diagonal 2
         if (self.states[0][2] == self.states[1][1] == self.states[2][0] == 1 or
             self.states[0][2] == self.states[1][1] == self.states[2][0] == 2):
@@ -57,7 +51,15 @@ class SuperTicTacToe:
 
     def update(self, n, m , i, j):
 
+
         game_is_won = self.check_winner()
+
+        if self.current_player == 2:
+
+            n = computers_move(self.games, self.current_player)[0]
+            m = computers_move(self.games, self.current_player)[1]
+            i = computers_move(self.games, self.current_player)[2]
+            j = computers_move(self.games, self.current_player)[3]
 
         if not game_is_won:
 
@@ -68,8 +70,6 @@ class SuperTicTacToe:
 
                 game_update = self.games[n][m].update(i, j, self.current_player)
 
-                
-
                 if game_update is not None:
                     self.small_board_position = [i,j]
 
@@ -79,15 +79,15 @@ class SuperTicTacToe:
                     return played, game_update
                 
                 
-            return None, None
+        return None, None
 
-        def reset(self):
-            for i in range(3):
-                for j in range(3):
-                    self.games[i][j].reset()
-                    
-            self.current_player = 1
-            self.small_board_position = None
+    def reset(self):
+        for i in range(3):
+            for j in range(3):
+                self.games[i][j].reset()
+                
+        self.current_player = 1
+        self.small_board_position = None
 
 
     

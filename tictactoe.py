@@ -3,7 +3,7 @@ import tkinter as tk
 
 
 
-class Tictactoe:
+class SmallTictactoe:
     def __init__(self):
         
         self.won = 0
@@ -61,9 +61,7 @@ class Tictactoe:
                 winner_states.append([j, 2 - j])
             return winner_states
 
-        # TODO: Is this correct and is it still needed?
-        if self.if_full():
-            return True
+        
             
         return True
     

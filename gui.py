@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import font as tkFont
 from super_tictactoe import SuperTicTacToe
+from robot import computers_move
 
 
 class TicTacToeApp:
@@ -22,6 +23,13 @@ class TicTacToeApp:
             if type(game_update) == list:
                 for i in range(3):
                     self.buttons[n][m][game_update[i][0]][game_update[i][1]].config(bg = "red" if played_by == 1 else "green")
+
+            if not self.game.check_winner():
+                computer_move = computers_move(self.game, 2)
+                if computer_move is not None:
+                    n, m , i , j = computer_move
+                    self.buttons[n][m][i][j]["text"] = "O"  
+                    self.game.update(n, m, i, j)
 
     def button_reset(self):
         for n in range(3):

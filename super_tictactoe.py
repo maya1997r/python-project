@@ -54,17 +54,13 @@ class SuperTicTacToe:
 
         game_is_won = self.check_winner()
 
-        
-
-
-            
 
         if not game_is_won:
 
             if (self.small_board_position == None or self.small_board_position == [n,m]):
                 if (self.games[n][m].if_full() or self.games[n][m].won != 0) :
                     self.small_board_position = None
-                    return
+                    return None
 
                 game_update = self.games[n][m].update(i, j, self.current_player)
 

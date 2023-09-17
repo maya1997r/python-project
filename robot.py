@@ -9,12 +9,33 @@ def computers_move(game, current_player):
 
         n, m = game.small_board_position
 
-        if (n , m) != None:
+        if n is not None and m is not None:
+            if not (game.games[n][m].won != 0 or game.games[n][m].if_full()):
+                        
 
-            for i in range(3):
-                for j in range(3):
-                    if game.games[n][m].state[i][j] == 0:
-                        empty_cells.append((n , m, i, j))
+                for i in range(3):
+                    for j in range(3):
+                       if game.games[n][m].state[i][j] == 0 :
+                                empty_cells.append((n , m, i, j))
+
+            else: 
+                for row in range(3):
+                    for column in range(3):
+                        if (game.games[row][column].won == 0 or not game.games[n][m].if_full()):
+                            for i in range(3):
+                                for j in range(3):
+
+                                    if (game.games[row][column].state[i][j] == 0 ):
+                                        empty_cells.append((row , column, i, j))
+
+
+
+        
+
+
+
+
+        
 
 
             if empty_cells:

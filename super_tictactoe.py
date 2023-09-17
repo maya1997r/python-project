@@ -56,17 +56,20 @@ class SuperTicTacToe:
 
         if self.current_player == 2:
 
-            n = computers_move(self.games, self.current_player)[0]
-            m = computers_move(self.games, self.current_player)[1]
-            i = computers_move(self.games, self.current_player)[2]
-            j = computers_move(self.games, self.current_player)[3]
+            move = computers_move(self, self.current_player)
+
+            if move is not None:
+                n, m, i,j = move
+
+
+            
 
         if not game_is_won:
 
             if (self.small_board_position == None or self.small_board_position == [n,m]):
                 if (self.games[n][m].if_full() or self.games[n][m].won != 0) :
                     self.small_board_position = None
-                    self.update(self,n, m, i, j)
+                    return
 
                 game_update = self.games[n][m].update(i, j, self.current_player)
 

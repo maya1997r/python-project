@@ -54,12 +54,7 @@ class SuperTicTacToe:
 
         game_is_won = self.check_winner()
 
-        if self.current_player == 2:
-
-            move = computers_move(self, self.current_player)
-
-            if move is not None:
-                n, m, i,j = move
+        
 
 
             

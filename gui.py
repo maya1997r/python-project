@@ -27,9 +27,9 @@ class TicTacToeApp:
             if not self.game.check_winner():
                 computer_move = computers_move(self.game, 2)
                 if computer_move is not None:
-                    n, m , i , j = computer_move
-                    self.buttons[n][m][i][j]["text"] = "O"  
-                    self.game.update(n, m, i, j)
+                    n1, m1 , i1 , j1 = computer_move
+                    self.buttons[n1][m1][i1][j1]["text"] = "O"  
+                    self.game.update(n1, m1, i1, j1)
 
     def button_reset(self):
         for n in range(3):

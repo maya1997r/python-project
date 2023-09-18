@@ -13,16 +13,16 @@ class TicTacToeApp:
         self.empty_button = "    "
         self.buttons = []
 
-    def button_click(self, n, m, i, j):
-        played_by, game_update = self.game.update(n, m, i, j)
+    def button_click(self, n, m, i, j): # specifies what is shown on the screen when a button is clicked or a computer move is made
+        played_by, game_update = self.game.update(n, m, i, j) # calls a function from the supertictactoe to update the state of the game if certain conditions are met 
 
-        if game_update is not None:
+        if game_update is not None: # meaning if the button clicked or the computer move is valid it the process will continue
 
-            self.buttons[n][m][i][j]["text"] = "X" if played_by == 1 else "O"
+            self.buttons[n][m][i][j]["text"] = "X" if played_by == 1 else "O" # it displays the valid clicked buttons value (either x or o)
 
-            if type(game_update) == list:
+            if type(game_update) == list: #checks if there is a winner in the small board, a list indicates that it returned the winners_state list from the small tic tac toe class
                 for i in range(3):
-                    self.buttons[n][m][game_update[i][0]][game_update[i][1]].config(bg = "red" if played_by == 1 else "green")
+                    self.buttons[n][m][game_update[i][0]][game_update[i][1]].config(bg = "red" if played_by == 1 else "green") #if the condition above is met then it changes the colors of the winners small board
 
             if not self.game.check_winner():
                 computer_move = computers_move(self.game, 2)
@@ -31,16 +31,16 @@ class TicTacToeApp:
                     self.buttons[n1][m1][i1][j1]["text"] = "O"  
                     self.game.update(n1, m1, i1, j1)
 
-    def button_reset(self):
+    def button_reset(self): # a function to reset all the buttons text values to empty on the screen
         for n in range(3):
             for m in range(3):
                 for i in range(3):
                     for j in range(3):
                         self.buttons[n][m][i][j]["text"] = self.empty_button
     
-        self.game.reset()
+        self.game.reset() # to reset all the buttons states in the supertictactoe
 
-    def run(self):
+    def run(self): # method to start the whole game on the user's window
         self.root = tk.Tk()
         self.root.title("Tic Tac Toe")
         self.root.minsize(16 * self.font_size, 15 * self.font_size)
@@ -48,7 +48,7 @@ class TicTacToeApp:
         self.root.rowconfigure((0,2,4), weight=1)  # make self.buttons stretch when
         self.root.columnconfigure((0,2,4), weight=1)  # when window is resized
 
-        for i in range(3):
+        for i in range(3): # creating the frames in the root window that the grids will be placed in
             row_frames = []
             for j in range(3):
                 game_frame = tk.Frame(self.root)
@@ -56,7 +56,7 @@ class TicTacToeApp:
                 row_frames.append(game_frame)
 
 
-                if j < 2:
+                if j < 2: # the horizontal separator 
                     column_separator_frame = tk.Frame(self.root, width=self.separator_size)
                     column_separator_frame.grid(row=2 * i, column=2 * j + 1) 
 
@@ -64,20 +64,20 @@ class TicTacToeApp:
             
             self.frames.append(row_frames)
 
-            if i < 2:
+            if i < 2: # the vertical seperator 
                 row_separator_frame = tk.Frame(self.root, height=self.separator_size)
                 row_separator_frame.grid(row=2 * i + 1, columnspan=3)
                 self.frames.append(row_separator_frame)
 
 
         restart_button = tk.Button(self.root, text="restart game", 
-                                command= self.button_reset)
+                                command= self.button_reset) # creating the restart button that will call the reset method when clicked
         restart_button.grid(row=7, column=2)
         padding_frame = tk.Frame(self.root, height=self.separator_size)
         padding_frame.grid(row=8, columnspan=3)
 
 
-        for n in range(3):
+        for n in range(3): #creating the buttons that will call the button_click function
             self.buttons.append([])
             for m in range(3):
                 self.buttons[n].append([])
@@ -90,13 +90,13 @@ class TicTacToeApp:
                                             font = self.button_font, 
                                             command = lambda n = n , m = m ,i=i, j=j: self.button_click(n, m ,i, j))
                         
-                        button.grid(row=i , column = j, sticky='EWNS')
+                        button.grid(row=i , column = j, sticky='EWNS') #making the buttons visible on the window
                         self.buttons[n][m][i].append(button) 
             
 
-        self.root.mainloop()
-
+        self.root.mainloop() # method that loops waiting for events until the user exits
+ 
 if __name__ == "__main__":
     app = TicTacToeApp()
-    app.run()
+    app.run() # calling the run method from the class and starting the whole game
         

@@ -70,6 +70,11 @@ class SuperTicTacToe:
                     played = self.current_player
                     self.current_player = 2 if self.current_player == 1 else 1
 
+
+                
+
+                    
+
                     return played, game_update
                 
                 

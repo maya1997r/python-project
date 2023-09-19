@@ -6,22 +6,22 @@ import tkinter as tk
 class SmallTictactoe:
     def __init__(self):
         
-        self.won = 0
+        self.won = 0 # a variable to keep track if a board has won
 
-        self.state = [[0, 0, 0],
+        self.state = [[0, 0, 0],  # a list to keep track of every button state in the small board (either 1 or 2 or 0)
                       [0, 0, 0],
                       [0, 0, 0]]
         
 
-    def reset(self):
+    def reset(self): # resets every button in the small board to zero
         self.won = 0
         for i in range(3):
             for j in range(3):
                 self.state[i][j] = 0
                  
     
-    def check(self, current_player):
-
+    def check(self, current_player): # checks if a player has won a small game or not by returning the winner states which gives us the states of the board the won
+ 
         winner_states =[]
         
         for i in range(3):
@@ -63,9 +63,9 @@ class SmallTictactoe:
 
         
             
-        return True
+        return False
     
-    def update(self, row, column, current_player):
+    def update(self, row, column, current_player): # after a player clicks on a button and its valid it updates the button state and then checks if someone has won atfer each move
         if self.won == 0 and self.state[row][column] == 0 :
                 self.state[row][column] = current_player
                 return self.check(current_player)
@@ -74,7 +74,7 @@ class SmallTictactoe:
                 
             
     
-    def if_full(self):
+    def if_full(self): # checks if a small board is full
          for i in range(3):
             for j in range(3):
                   if self.state[i][j] == 0:

@@ -13,33 +13,6 @@ class TicTacToeApp:
         self.empty_button = "    "
         self.buttons = []
 
-    def button_click(self, n, m, i, j): # specifies what is shown on the screen when a button is clicked or a computer move is made
-        played_by, game_update = self.game.update(n, m, i, j) # calls a function from the supertictactoe to update the state of the game if certain conditions are met 
-
-        if game_update is not None: # meaning if the button clicked or the computer move is valid it the process will continue
-
-            self.buttons[n][m][i][j]["text"] = "X" if played_by == 1 else "O" # it displays the valid clicked buttons value (either x or o)
-
-            if type(game_update) == list: #checks if there is a winner in the small board, a list indicates that it returned the winners_state list from the small tic tac toe class
-                for i in range(3):
-                    self.buttons[n][m][game_update[i][0]][game_update[i][1]].config(bg = "red" if played_by == 1 else "green") #if the condition above is met then it changes the colors of the winners small board
-
-            if not self.game.check_winner():
-                computer_move = computers_move(self.game, 2)
-                if computer_move is not None:
-                    n1, m1 , i1 , j1 = computer_move
-                    self.buttons[n1][m1][i1][j1]["text"] = "O"  
-                    self.game.update(n1, m1, i1, j1)
-
-    def button_reset(self): # a function to reset all the buttons text values to empty on the screen
-        for n in range(3):
-            for m in range(3):
-                for i in range(3):
-                    for j in range(3):
-                        self.buttons[n][m][i][j]["text"] = self.empty_button
-    
-        self.game.reset() # to reset all the buttons states in the supertictactoe
-
     def run(self): # method to start the whole game on the user's window
         self.root = tk.Tk()
         self.root.title("Tic Tac Toe")
@@ -96,6 +69,40 @@ class TicTacToeApp:
 
         self.root.mainloop() # method that loops waiting for events until the user exits
  
+
+    def button_click(self, n, m, i, j): # specifies what is shown on the screen when a button is clicked or a computer move is made
+        game_update = self.game.update(n, m, i, j) # calls a function from the supertictactoe to update the state of the game if certain conditions are met 
+
+        if game_update is not None: # meaning if the button clicked or the computer move is valid it the process will continue
+
+            self.buttons[n][m][i][j]["text"] = "X"  # it displays the valid clicked buttons value (either x or o)
+
+            if type(game_update) == list: #checks if there is a winner in the small board, a list indicates that it returned the winners_state list from the small tic tac toe class
+                for i in range(3):
+                    self.buttons[n][m][game_update[i][0]][game_update[i][1]].config(bg = "red" ) #if the condition above is met then it changes the colors of the winners small board
+
+            if not self.game.check_winner():
+                computer_move = computers_move(self.game)
+                if computer_move is not None:
+                    n1, m1 , i1 , j1 = computer_move
+                    game_update = self.game.update(n1, m1, i1, j1)
+                    self.buttons[n1][m1][i1][j1]["text"] = "O"  
+                    if type(game_update) == list: #checks if there is a winner in the small board, a list indicates that it returned the winners_state list from the small tic tac toe class
+                        for i in range(3):
+                            self.buttons[n][m][game_update[i][0]][game_update[i][1]].config(bg = "green")
+
+                    
+
+    def button_reset(self): # a function to reset all the buttons text values to empty on the screen
+        for n in range(3):
+            for m in range(3):
+                for i in range(3):
+                    for j in range(3):
+                        self.buttons[n][m][i][j]["text"] = self.empty_button
+    
+        self.game.reset() # to reset all the buttons states in the supertictactoe
+
+    
 if __name__ == "__main__":
     app = TicTacToeApp()
     app.run() # calling the run method from the class and starting the whole game

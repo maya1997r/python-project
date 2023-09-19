@@ -79,10 +79,8 @@ class SuperTicTacToe:
     
     def available_spaces(self):
 
-        
-
-        
-            # assigning the n and m which indicate which game to choose from according to the indexes of the previously chosed button click from the user
+        self.empty_cells = []
+        # assigning the n and m which indicate which game to choose from according to the indexes of the previously chosed button click from the user
         n, m = self.small_board_position
         if not (self.games[n][m].won != 0 or self.games[n][m].if_full()): # if the game that we should be from is not won yet or it isnt full we add the empty buttons there to the empty_cells list
                     

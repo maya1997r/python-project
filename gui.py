@@ -73,6 +73,11 @@ class TicTacToeApp:
     def button_click(self, n, m, i, j): # specifies what is shown on the screen when a button is clicked or a computer move is made
         game_update = self.game.update(n, m, i, j) # calls a function from the supertictactoe to update the state of the game if certain conditions are met 
 
+        for a in range(3):
+            for b in range(3):
+                for c in range(3):
+                    for d in range(3):
+                        self.buttons[a][b][c][d]["state"] = "normal"
         if game_update is not None: # meaning if the button clicked or the computer move is valid it the process will continue
 
             self.buttons[n][m][i][j]["text"] = "X"  # it displays the valid clicked buttons value (either x or o)
@@ -90,6 +95,12 @@ class TicTacToeApp:
                     if type(game_update) == list: #checks if there is a winner in the small board, a list indicates that it returned the winners_state list from the small tic tac toe class
                         for i in range(3):
                             self.buttons[n][m][game_update[i][0]][game_update[i][1]].config(bg = "green")
+                    for a in range(3):
+                        for b in range(3):
+                            for c in range(3):
+                                for d in range(3):
+                                    if (a, b, c, d) not in self.game.empty_cells:
+                                        self.buttons[a][b][c][d]["state"] = "disabled"
 
                     
 

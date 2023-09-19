@@ -1,5 +1,4 @@
 from tictactoe import SmallTictactoe
-from robot import computers_move
 
 
 class SuperTicTacToe:
@@ -7,12 +6,12 @@ class SuperTicTacToe:
 
         self.current_player = 1
         self.small_board_position = None
-        self.empty_cells = [] 
+        self.available_cells = [] 
 
         self.games = []
-        for i in range(3):
+        for _ in range(3):
             games_row = []
-            for j in range(3):
+            for _ in range(3):
                 games_row.append(SmallTictactoe())
             self.games.append(games_row)
 
@@ -49,22 +48,15 @@ class SuperTicTacToe:
         game_is_won = self.check_winner() # calling the function to check if a player has won the entire game yet
         if not game_is_won: # if no one won the big game yet so we can continue
 
-            if (self.small_board_position == None or self.small_board_position == [n,m]): # if the button the player or computer pressed is valid
-                if (self.games[n][m].if_full() or self.games[n][m].won != 0) : # if the game the player pressed is full or invalid then he can make a move on any other available board 
-                    self.small_board_position = None 
-                    return None
+            game_update = self.games[n][m].update(i, j, self.current_player) # calls a function from the small tic tac toe game to update the states of the small board
 
-                game_update = self.games[n][m].update(i, j, self.current_player) # calls a function from the small tic tac toe game to update the states of the small board
+            self.small_board_position = [i,j] # then the position of the next game is the position of the button clicked in the small game
+            self.current_player = 2 if self.current_player == 1 else 1 
+            self.available_spaces()
 
-                if game_update is not None: # if the small board and button are updated correctly
-                    self.small_board_position = [i,j] # then the position of the next game is the position of the button clicked in the small game
-                    self.current_player = 2 if self.current_player == 1 else 1 
-                    self.available_spaces()
+            return game_update
 
-                    return game_update
-                
-                
-                
+
         return None
 
     def reset(self): # a function to reset the entire game 
@@ -79,16 +71,14 @@ class SuperTicTacToe:
     
     def available_spaces(self):
 
-        self.empty_cells = []
+        self.available_cells = []
         # assigning the n and m which indicate which game to choose from according to the indexes of the previously chosed button click from the user
         n, m = self.small_board_position
-        if not (self.games[n][m].won != 0 or self.games[n][m].if_full()): # if the game that we should be from is not won yet or it isnt full we add the empty buttons there to the empty_cells list
-                    
-
+        if not (self.games[n][m].won != 0 or self.games[n][m].if_full()): # if the game that we should be from is not won yet or it isnt full we add the empty buttons there to the available_cells list
             for i in range(3):
                 for j in range(3):
                     if self.games[n][m].state[i][j] == 0 :
-                            self.empty_cells.append((n , m, i, j))
+                            self.available_cells.append((n , m, i, j))
 
         else:  # is the game is either full or won then the buttons are of a wider range 
             for row in range(3):
@@ -98,7 +88,7 @@ class SuperTicTacToe:
                             for j in range(3):
 
                                 if (self.games[row][column].state[i][j] == 0 ):
-                                    self.empty_cells.append((row , column, i, j))
+                                    self.available_cells.append((row , column, i, j))
 
         
 

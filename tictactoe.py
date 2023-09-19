@@ -71,7 +71,7 @@ class SmallTictactoe:
                 
             
     
-    def if_full(self):
+    def is_full(self):
          for i in range(3):
             for j in range(3):
                   if self.state[i][j] == 0:

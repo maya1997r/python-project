@@ -25,42 +25,42 @@ class TicTacToeApp:
         self.frames = []
         self.buttons = []
 
-        for i in range(3): # creating the frames in the root window that the grids will be placed in
+        for a in range(3): # creating the frames in the root window that the grids will be placed in
             row_frames = []
-            for j in range(3):
+            for b in range(3):
                 game_frame = tk.Frame(self.root)
-                game_frame.grid(row=2 * i, column=2 * j)
+                game_frame.grid(row=2 * a, column=2 * b)
                 row_frames.append(game_frame)
 
-                if j < 2: # the horizontal separator 
+                if b < 2: # the horizontal separator 
                     column_separator_frame = tk.Frame(self.root, width=self.separator_size)
-                    column_separator_frame.grid(row=2 * i, column=2 * j + 1) 
+                    column_separator_frame.grid(row=2 * a, column=2 * b + 1) 
 
                     row_frames.append(column_separator_frame)
             
             self.frames.append(row_frames)
 
-            if i < 2: # the vertical seperator 
+            if a < 2: # the vertical seperator 
                 row_separator_frame = tk.Frame(self.root, height=self.separator_size)
-                row_separator_frame.grid(row=2 * i + 1, columnspan=3)
+                row_separator_frame.grid(row=2 * a + 1, columnspan=3)
                 self.frames.append(row_separator_frame)
 
 
-        for n in range(3): #creating the buttons that will call the button_click function
+        for a in range(3): #creating the buttons that will call the button_click function
             self.buttons.append([])
-            for m in range(3):
-                self.buttons[n].append([])
+            for b in range(3):
+                self.buttons[a].append([])
 
-                for i in range(3):
-                    self.buttons[n][m].append([])
+                for c in range(3):
+                    self.buttons[a][b].append([])
                     
-                    for j in range(3):
-                        button = Button(self.frames[2*n][2*m], text = self.empty_button, 
+                    for d in range(3):
+                        button = Button(self.frames[2*a][2*b], text = self.empty_button, 
                                         font = self.button_font, height=2*self.font_size, width=4*self.font_size,
-                                        command = lambda n = n , m = m ,i=i, j=j: self.button_click(n, m ,i, j))
+                                        command = lambda n= a , m=b ,i=c, j=d: self.button_click(n, m ,i, j))
                         
-                        button.grid(row=i , column = j, sticky='EWNS') #making the buttons visible on the window
-                        self.buttons[n][m][i].append(button) 
+                        button.grid(row=c , column = d, sticky='EWNS') #making the buttons visible on the window
+                        self.buttons[a][b][c].append(button) 
         
         restart_button = Button(self.root, text="restart game", 
                                 command= self.button_reset) # creating the restart button that will call the reset method when clicked

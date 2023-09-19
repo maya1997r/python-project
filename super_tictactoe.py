@@ -41,12 +41,17 @@ class SuperTicTacToe:
 
         return False #returns false if no one won the game yet
 
+    def is_full(self):
+        for a in range(3):
+            for b in range(3):
+                if self.games[a][b].won == 0 and not self.games[a][b].is_full():
+                    return False
+        return True
+
 
     def update(self, n, m , i, j):
 
-
-        game_is_won = self.check_winner() # calling the function to check if a player has won the entire game yet
-        if not game_is_won: # if no one won the big game yet so we can continue
+        if not self.check_winner() and not self.is_full(): # if no one won the big game yet so we can continue
 
             game_update = self.games[n][m].update(i, j, self.current_player) # calls a function from the small tic tac toe game to update the states of the small board
 
@@ -60,9 +65,9 @@ class SuperTicTacToe:
         return None
 
     def reset(self): # a function to reset the entire game 
-        for i in range(3):
-            for j in range(3):
-                self.games[i][j].reset()
+        for a in range(3):
+            for b in range(3):
+                self.games[a][b].reset()
                 
         self.current_player = 1
         self.small_board_position = None
@@ -73,22 +78,22 @@ class SuperTicTacToe:
 
         self.available_cells = []
         # assigning the n and m which indicate which game to choose from according to the indexes of the previously chosed button click from the user
-        n, m = self.small_board_position
-        if not (self.games[n][m].won != 0 or self.games[n][m].if_full()): # if the game that we should be from is not won yet or it isnt full we add the empty buttons there to the available_cells list
-            for i in range(3):
-                for j in range(3):
-                    if self.games[n][m].state[i][j] == 0 :
-                            self.available_cells.append((n , m, i, j))
+        a, b = self.small_board_position
+        if not (self.games[a][b].won != 0 or self.games[a][b].is_full()): # if the game that we should be from is not won yet or it isnt full we add the empty buttons there to the available_cells list
+            for c in range(3):
+                for d in range(3):
+                    if self.games[a][b].state[c][d] == 0 :
+                            self.available_cells.append((a , b, c, d))
 
         else:  # is the game is either full or won then the buttons are of a wider range 
-            for row in range(3):
-                for column in range(3):
-                    if (self.games[row][column].won == 0 or not self.games[row][column].if_full()):
-                        for i in range(3):
-                            for j in range(3):
+            for a in range(3):
+                for b in range(3):
+                    if (self.games[a][b].won == 0 or not self.games[a][b].is_full()):
+                        for c in range(3):
+                            for d in range(3):
 
-                                if (self.games[row][column].state[i][j] == 0 ):
-                                    self.available_cells.append((row , column, i, j))
+                                if (self.games[a][b].state[c][d] == 0 ):
+                                    self.available_cells.append((a , b, c, d))
 
         
 

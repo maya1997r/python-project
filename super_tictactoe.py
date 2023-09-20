@@ -20,8 +20,8 @@ class SuperTicTacToe:
         
         for i in range(3):
             # check horizontal winning of the big tic tac toe game
-            if (all([j.won == 1 for j in self.games[i]]) or 
-                all([j.won == 2 for j in self.games[i]])):
+            if (all([self.games[i][j].won == 1 for j in range(3)]) or 
+                all([self.games[i][j].won == 2 for j in range(3)])):
                 return True
 
             # check vertical 
@@ -30,9 +30,9 @@ class SuperTicTacToe:
                 return True
 
         # Check if diagonal 1
-            if (self.games[0][0].won == self.games[1][1].won == self.games[2][2].won == 1 or
-                self.games[0][0].won == self.games[1][1].won == self.games[2][2].won == 2):
-                return True
+        if (self.games[0][0].won == self.games[1][1].won == self.games[2][2].won == 1 or
+            self.games[0][0].won == self.games[1][1].won == self.games[2][2].won == 2):
+            return True
             
         # Check if diagonal 2
         if (self.games[0][2].won == self.games[1][1].won == self.games[2][0].won == 1 or
@@ -48,53 +48,48 @@ class SuperTicTacToe:
                     return False
         return True
 
-
     def update(self, n, m , i, j):
 
-        if not self.check_winner() and not self.is_full(): # if no one won the big game yet so we can continue
+        if not self.check_winner() and not self.is_full(): 
 
-            game_update = self.games[n][m].update(i, j, self.current_player) # calls a function from the small tic tac toe game to update the states of the small board
+            game_updated = self.games[n][m].update(i, j, self.current_player)
 
-            self.small_board_position = [i,j] # then the position of the next game is the position of the button clicked in the small game
-            self.current_player = 2 if self.current_player == 1 else 1 
-            self.available_spaces()
+            if game_updated:
+                self.small_board_position = [i,j] 
+                self.current_player = 2 if self.current_player == 1 else 1 
+                self.update_available_cells()
+                return True
+            else:
+                print(f"Small Game {n}, {m}")
+            
+        return False
+    
+    def update_available_cells(self):
 
-            return game_update
+        self.available_cells = []
+        
+        n, m = self.small_board_position
+        if self.games[n][m].won == 0 and not self.games[n][m].is_full():
+            for i in range(3):
+                for j in range(3):
+                    if self.games[n][m].state[i][j] == 0:
+                        self.available_cells.append((n , m, i, j))
 
+        else:  
+            for a in range(3):
+                for b in range(3):
+                    if self.games[a][b].won == 0 and not self.games[a][b].is_full():
+                        for c in range(3):
+                            for d in range(3):
+                                if self.games[a][b].state[c][d] == 0:
+                                    self.available_cells.append((a , b, c, d))
 
-        return None
-
-    def reset(self): # a function to reset the entire game 
+    def reset(self):
         for a in range(3):
             for b in range(3):
                 self.games[a][b].reset()
                 
         self.current_player = 1
         self.small_board_position = None
-
-
-    
-    def available_spaces(self):
-
-        self.available_cells = []
-        # assigning the n and m which indicate which game to choose from according to the indexes of the previously chosed button click from the user
-        a, b = self.small_board_position
-        if not (self.games[a][b].won != 0 or self.games[a][b].is_full()): # if the game that we should be from is not won yet or it isnt full we add the empty buttons there to the available_cells list
-            for c in range(3):
-                for d in range(3):
-                    if self.games[a][b].state[c][d] == 0 :
-                            self.available_cells.append((a , b, c, d))
-
-        else:  # is the game is either full or won then the buttons are of a wider range 
-            for a in range(3):
-                for b in range(3):
-                    if (self.games[a][b].won == 0 or not self.games[a][b].is_full()):
-                        for c in range(3):
-                            for d in range(3):
-
-                                if (self.games[a][b].state[c][d] == 0 ):
-                                    self.available_cells.append((a , b, c, d))
-
-        
 
                 

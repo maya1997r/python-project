@@ -59,35 +59,38 @@ class TicTacToeApp:
                                         font = self.button_font, height=2*self.font_size, width=4*self.font_size,
                                         command = lambda n= a , m=b ,i=c, j=d: self.button_click(n, m ,i, j))
                         
-                        button.grid(row=c , column = d, sticky='EWNS') #making the buttons visible on the window
+                        button.grid(row=c , column = d, sticky='EWNS')
                         self.buttons[a][b][c].append(button) 
         
         restart_button = Button(self.root, text="restart game", 
-                                command= self.button_reset) # creating the restart button that will call the reset method when clicked
+                                command= self.button_reset)
         restart_button.grid(row=7, column=2)
 
         padding_frame = tk.Frame(self.root, height=self.separator_size)
         padding_frame.grid(row=8, columnspan=3)
 
-    def run(self): # method to start the whole game on the user's window
-        self.root.mainloop() # method that loops waiting for events until the user exits
+    def run(self): 
+        self.root.mainloop() 
  
-    def button_click(self, n, m, i, j): # specifies what is shown on the screen when a button is clicked or a computer move is made
-        self.game.update(n, m, i, j) # calls a function from the supertictactoe to update the state of the game if certain conditions are met 
+    def button_click(self, n, m, i, j):
+        game_updated = self.game.update(n, m, i, j) 
 
-        for a in range(3):
-            for b in range(3):
-                for c in range(3):
-                    for d in range(3):
-                        self.buttons[a][b][c][d].config(state = "normal")
+        if game_updated:
+            for a in range(3):
+                for b in range(3):
+                    for c in range(3):
+                        for d in range(3):
+                            self.buttons[a][b][c][d].config(state = "normal")
 
-        self.buttons[n][m][i][j]["text"] = "X"  # it displays the valid clicked buttons value (either x or o)
+            self.buttons[n][m][i][j]["text"] = "X"  
 
-        chosen_cell = choose_cell(self.game)
-        if chosen_cell is not None:
-            n1, m1 , i1 , j1 = chosen_cell
-            self.game.update(n1, m1, i1, j1)
-            self.buttons[n1][m1][i1][j1]["text"] = "O"  
+            chosen_cell = choose_cell(self.game)
+            if chosen_cell is not None:
+                n1, m1 , i1 , j1 = chosen_cell
+                game_updated = self.game.update(n1, m1, i1, j1)
+                if game_updated:
+                    self.buttons[n1][m1][i1][j1]["text"] = "O"
+                
             for a in range(3):
                 for b in range(3):
                     for c in range(3):
@@ -98,11 +101,12 @@ class TicTacToeApp:
                             if [c, d] in self.game.games[a][b].winner_cells:
                                 self.buttons[a][b][c][d].config(bg = "lawn green" 
                                                                 if self.game.games[a][b].won == 1 else "red2")
-                
-            self.buttons[n1][m1][i1][j1].config(bg = "cyan") 
+                    
+            if chosen_cell is not None and game_updated:
+                self.buttons[n1][m1][i1][j1].config(bg = "cyan")
 
-    def button_reset(self): # a function to reset all the buttons text values to empty on the screen
-        self.game.reset() # to reset all the buttons states in the supertictactoe
+    def button_reset(self): 
+        self.game.reset() 
         
         for a in range(3):
             for b in range(3):
@@ -114,5 +118,5 @@ class TicTacToeApp:
     
 if __name__ == "__main__":
     app = TicTacToeApp()
-    app.run() # calling the run method from the class and starting the whole game
+    app.run() 
         

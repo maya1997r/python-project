@@ -66,11 +66,14 @@ class SmallTictactoe:
         return False
     
     def update(self, row, column, current_player):
-        self.state[row][column] = current_player
-        return self.check(current_player)
+        if self.won == 0 and not self.is_full():
+            self.state[row][column] = current_player
+            self.check(current_player)
+            return True
+        else:
+            print(f"In Small Game {row}, {column}")
+            return False
                 
-            
-    
     def is_full(self):
          for i in range(3):
             for j in range(3):

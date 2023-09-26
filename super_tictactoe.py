@@ -39,7 +39,7 @@ class SuperTicTacToe:
             self.games[0][2].won == self.games[1][1].won == self.games[2][0].won == 2):
             return True
 
-        return False #returns false if no one won the game yet
+        return False 
 
     def is_full(self):
         for a in range(3):
@@ -60,7 +60,7 @@ class SuperTicTacToe:
                 self.update_available_cells()
                 return True
             else:
-                print(f"Small Game {n}, {m}")
+                print(f" hello Small Game {n}, {m}")
             
         return False
     

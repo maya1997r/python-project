@@ -25,7 +25,7 @@ class TicTacToeApp:
         self.frames = []
         self.buttons = []
 
-        for a in range(3): # creating the frames in the root window that the grids will be placed in
+        for a in range(3): 
             row_frames = []
             for b in range(3):
                 game_frame = tk.Frame(self.root)
@@ -46,7 +46,7 @@ class TicTacToeApp:
                 self.frames.append(row_separator_frame)
 
 
-        for a in range(3): #creating the buttons that will call the button_click function
+        for a in range(3): 
             self.buttons.append([])
             for b in range(3):
                 self.buttons[a].append([])
